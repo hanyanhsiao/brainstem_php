@@ -1,0 +1,56 @@
+@import './base/var';
+@import './base/font';
+@import './base/color';
+
+@import './mixin/mixin';
+
+@import './component/btn';
+@import './component/card';
+@import './component/from';
+@import './component/body';
+@import './component/title';
+
+@import './layout/footer';
+@import './layout/header';
+@import './layout/login';
+@import './layout/nav';
+
+@import './page/about';
+@import './page/main';
+
+body{
+    width:100px;
+}
+//  $fontSize: 16px;
+//  $bgc: #333;
+//  $ma-0a: 0 auto;
+
+//  body{
+//      font-size: $fontSize;
+//     background-color: $bgc;
+//  }
+
+// .wrapper{
+//     width: 1000px;
+//     margin: $ma-0a;
+//     h1{
+//         font-size: 30px;
+//         &:hover{
+//             color: #c146d4;
+//         }
+//         &::after{
+//             content: '-----';
+//         }
+//         &:hover::after{
+//             color: aqua;
+//         }
+//     }
+// }
+
+
+// @for $i from 1 through 10{
+//     .col-#{$i}{
+//         // width : $i * 10px;
+//         width : $i * 100/12 + '%';
+//     }
+// }
