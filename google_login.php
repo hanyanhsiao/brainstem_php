@@ -31,6 +31,7 @@ $name =  $data['name'];
 
 // 1 先透過php找$_SESSION看裡面有沒有這個EMAIL存在(看登入狀態)
 session_start();
+$jsonArray = null;
 
 if (isset($_SESSION['email']) && $_SESSION['email'] === $email) {
     // echo '該 EMAIL 存在於 $_SESSION 中。';
@@ -47,18 +48,16 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === $email) {
     $statement->execute();
     $data = $statement->fetchAll();
     // 建立最終的 JSON 格式陣列
-    $jsonArray = null;
 
     if(count($data)>0){
-        //已註冊過，導回首頁
-        session_start();
-        $_SESSION["MEMBER_ACCOUNT"]=$email; 
-        echo "success";  
-        // $jsonArray = array(
-        //     'redirect' => 'http://localhost:3000/index.html'
-        // );    
+        //已註冊過，導回首頁 
+
+        $_SESSION["member_account"]= $email;
+        $jsonArray = array(
+            'redirect' => 'http://localhost:3000/index.html'
+        );    
     }else{
-        //首次註冊，導回會員中心田完整資料
+        //首次註冊，導回會員中心填完整資料
 
         $sql = "INSERT INTO MEMBER_DATA (USERNAME, MEMBER_ACCOUNT) 
         VALUES (? , ? )";  
@@ -66,9 +65,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === $email) {
         $statement->bindValue(1, $name);
         $statement->bindValue(2, $email);
         $statement->execute();
-
-        // session_start();
-        // $_SESSION["MEMBER_ACCOUNT"]=$email;
+        $_SESSION["member_account"]= $email;
 
         $jsonArray = array(
             'redirect' => 'http://localhost:3000/member_center.html'
