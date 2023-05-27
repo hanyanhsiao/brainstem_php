@@ -1,7 +1,5 @@
 <?php
 
-header('Access-Control-Allow-Origin: http://localhost:3000');
-
 include("Conn.php");
 
 // 撰寫 SQL 查詢
@@ -27,7 +25,7 @@ if (count($testResult) > 0) {
         $optionArray = array();
 
         // 執行查詢 OPTION 資料表
-        $optionQuery = "SELECT * FROM `OPTION` WHERE TEST_ITEM_ID = ? ";
+        $optionQuery = "SELECT * FROM `AI_OPTION` WHERE TEST_ITEM_ID = ? ";
         $optionResult = $pdo->prepare($optionQuery);
         $optionResult->bindValue(1, $questionNum);
         $optionResult->execute();

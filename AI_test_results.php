@@ -1,7 +1,5 @@
 <?php
 
-header('Access-Control-Allow-Origin: http://localhost:3000');
-
 include("Conn.php");
 
 // 撰寫 SQL 查詢
@@ -10,7 +8,7 @@ FROM `CATEGORY`  AS C
 JOIN `G_C_RELATION` AS GC ON C.category_id = GC.category_id
 JOIN `GAME_DATA` AS G ON GC.game_id = G.game_id
 join `GAME_IMG` AS GI on  G.game_id = GI.game_id
-join (select distinct CATEGORY_DESCRIPTION,CATEGORY_ID   from `option`
+join (select distinct CATEGORY_DESCRIPTION,CATEGORY_ID   from `AI_OPTION`
 ) as O on O.CATEGORY_ID =  C.CATEGORY_ID 
 WHERE C.CATEGORY_ID = ? limit 3";
 
