@@ -3,14 +3,15 @@
 include("Conn.php");
 
 // 撰寫 SQL 查詢
-$sql = "SELECT  O.CATEGORY_DESCRIPTION, C.CATEGORY_NAME, G.GAME_ID, G.GAME_NAME,GI.IMG_PATH
+$sql = "SELECT   O.CATEGORY_DESCRIPTION, C.CATEGORY_NAME, G.GAME_ID, G.GAME_NAME,G.GAME_COVER
 FROM `CATEGORY`  AS C
 JOIN `G_C_RELATION` AS GC ON C.category_id = GC.category_id
 JOIN `GAME_DATA` AS G ON GC.game_id = G.game_id
-join `GAME_IMG` AS GI on  G.game_id = GI.game_id
+-- join `GAME_IMG` AS GI on  G.game_id = GI.game_id
 join (select distinct CATEGORY_DESCRIPTION,CATEGORY_ID   from `AI_OPTION`
 ) as O on O.CATEGORY_ID =  C.CATEGORY_ID 
-WHERE C.CATEGORY_ID = ? limit 3";
+WHERE C.CATEGORY_ID = ? 
+limit 3";
 
 // 執行查詢
 $statement = $pdo->prepare($sql);
@@ -37,7 +38,7 @@ if (count($testResult) > 0) {
         $gameArray = array(
             "id" => $gameRow["GAME_ID"],
             "name" => $gameRow["GAME_NAME"],
-            "image" => $gameRow["IMG_PATH"],
+            "image" => $gameRow["GAME_COVER"],
             "url" => "",
         );
 

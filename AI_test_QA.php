@@ -3,7 +3,7 @@
 include("Conn.php");
 
 // 撰寫 SQL 查詢
-$sql = "SELECT * FROM BRAINSTEM.TEST";
+$sql = "SELECT * FROM brainstem.AI_TEST";
 
 // 執行查詢
 $statement = $pdo->prepare($sql);
