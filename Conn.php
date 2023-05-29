@@ -14,5 +14,7 @@
     
     // 設定CORS標頭
     header("Access-Control-Allow-Origin: http://localhost:3000");
+    //共用伺服器參數
+    $php_url = "http://localhost:3000";
 
  ?>

@@ -40,7 +40,7 @@ if (isset($_SESSION['member_account']) ) {
     // echo '該 EMAIL 存在於 $_SESSION 中。';
 
     $jsonArray = array(
-        'redirect' => 'http://localhost:3000/index.html'
+        'redirect' =>  $php_url.'/index.html'
     ); 
 
 } else {
@@ -58,23 +58,33 @@ if (isset($_SESSION['member_account']) ) {
 
         $_SESSION["member_account"]= $email;
         $jsonArray = array(
-            'redirect' => 'http://localhost:3000/index.html'
+            'redirect' =>  $php_url.'/index.html'
         );    
     }else{
         //首次註冊，導回會員中心填完整資料
 
-        $sql = "INSERT INTO MEMBER_DATA (USERNAME, MEMBER_ACCOUNT,MEMBER_PHOTO) 
-        VALUES (? , ? , ?)";  
+        date_default_timezone_set("Asia/Taipei");
+        $sql = "INSERT INTO MEMBER_DATA (MEMBERSHIP_NUMBER,NICKNAME,USERNAME,GENDER,MEMBER_ACCOUNT,MEMBER_PASSWORD,PHONE,MEMBER_PHOTO,BIRTHDAY,REGISTRATION_DATE,MEMBER_STATUS) 
+        VALUES (? , ? , ? , ? , ? , ? ,? , ? , ? ,? , ? )";  
         $statement = $pdo->prepare($sql);
-        $statement->bindValue(1, $name);
-        $statement->bindValue(2, $email);
-        $statement->bindValue(3, $photo);
+        $statement->bindValue(1, date("YmdHis"));
+        $statement->bindValue(2, "");
+        $statement->bindValue(3, $name);
+        $statement->bindValue(4, "");
+        $statement->bindValue(5, $email);
+        $statement->bindValue(6, "");
+        $statement->bindValue(7, "");
+        $statement->bindValue(8, $photo);
+        $statement->bindValue(9, date("Y-m-d"));
+        $statement->bindValue(10, date("Y-m-d"));
+        $statement->bindValue(11, 1);
+
 
         $statement->execute();
         $_SESSION["member_account"]= $email;
 
         $jsonArray = array(
-            'redirect' => 'http://localhost:3000/member_center.html'
+            'redirect' =>  $php_url.'/index.html'
         );   
     }
 
