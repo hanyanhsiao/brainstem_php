@@ -61,7 +61,7 @@ if (isset($_SESSION['member_account']) ) {
             'redirect' =>  $php_url.'/index.html'
         );    
     }else{
-        //首次註冊，導回會員中心填完整資料
+        //首次註冊，導回首頁
 
         date_default_timezone_set("Asia/Taipei");
         $sql = "INSERT INTO MEMBER_DATA (MEMBERSHIP_NUMBER,NICKNAME,USERNAME,GENDER,MEMBER_ACCOUNT,MEMBER_PASSWORD,PHONE,MEMBER_PHOTO,BIRTHDAY,REGISTRATION_DATE,MEMBER_STATUS) 
@@ -79,7 +79,6 @@ if (isset($_SESSION['member_account']) ) {
         $statement->bindValue(10, date("Y-m-d"));
         $statement->bindValue(11, 1);
 
-
         $statement->execute();
         $_SESSION["member_account"]= $email;
 
@@ -90,7 +89,6 @@ if (isset($_SESSION['member_account']) ) {
 
         // 關閉資料庫連線
         unset($pdo);
-        
 }
 
 // 輸出 JSON

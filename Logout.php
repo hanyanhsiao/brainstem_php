@@ -16,6 +16,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 session_start(); 
 session_unset();
 session_destroy(); 
-// echo "alert('您已登出');";
-// header('location:Login.html'); 
+ 
 ?>
