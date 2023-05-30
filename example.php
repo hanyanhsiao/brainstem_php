@@ -6,7 +6,7 @@
 include("Conn.php");
 
 // 撰寫 SQL 查詢
-$sql = "SELECT * FROM brainstem.你要撈的資料表";
+$sql = "SELECT * FROM 你要撈的資料表";
 
 // 執行查詢
 $statement = $pdo->prepare($sql);
