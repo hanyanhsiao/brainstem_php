@@ -40,7 +40,7 @@ if (isset($_SESSION['member_account']) ) {
     // echo '該 EMAIL 存在於 $_SESSION 中。';
 
     $jsonArray = array(
-        'redirect' =>  $php_url.'/index.html'
+        'redirect' =>  $php_url.'index.html'
     ); 
 
 } else {
@@ -58,7 +58,7 @@ if (isset($_SESSION['member_account']) ) {
 
         $_SESSION["member_account"]= $email;
         $jsonArray = array(
-            'redirect' =>  $php_url.'/index.html'
+            'redirect' =>  $php_url.'index.html'
         );    
     }else{
         //首次註冊，導回首頁
@@ -83,7 +83,7 @@ if (isset($_SESSION['member_account']) ) {
         $_SESSION["member_account"]= $email;
 
         $jsonArray = array(
-            'redirect' =>  $php_url.'/index.html'
+            'redirect' =>  $php_url.'index.html'
         );   
     }
 
