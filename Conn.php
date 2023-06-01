@@ -7,7 +7,7 @@
     $db_pass = "password";
     $db_select = "brainstem";
 
-    // 將程式上傳到TiBaMe伺服器時，記得將PHP中資料庫連線改成以下設定..
+    // 將程式上傳到TiBaMe伺服器時，記得將PHP中資料庫連線改成以下設定
     // $db_host = "127.0.0.1";
     // $db_user = "tibamefe_since2021";
     // $db_pass = "vwRBSb.j&K#E";
@@ -26,8 +26,8 @@
     // header("Access-Control-Allow-Origin: https://tibamef2e.com");
 
     //共用伺服器參數
-    $php_url = "http://localhost:3000/";
-    // $php_url = "https://tibamef2e.com/thd101/g2/dist/";
+    $fronted_url = "http://localhost:3000/";
+    // $fronted_url = "https://tibamef2e.com/thd101/g2/dist/";
 
     // ==========勿動勿動勿動勿動勿動勿動勿動勿動===========
  ?>

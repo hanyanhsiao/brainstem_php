@@ -10,8 +10,10 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Credentials: true");
 
 
-// OPTIONS 请求方法是 CORS 的预检请求，用于确定是否可以发送实际的 POST 请求。在某些情况下，浏览器会发送 OPTIONS 请求以检查服务器是否允许跨域访问。
-// 对于 OPTIONS 请求，只发送 CORS 头信息，不做其他处理
+// OPTIONS 請求方法是 CORS 的預檢請求，
+// 用於確定是否可以發送實際的 POST 請求。在某些情況下，
+// 瀏覽器會發送 OPTIONS 請求已檢查是否允許跨預訪問。
+// 對於 OPTIONS 請求，只發送 CORS 信息，不做其他處理
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
@@ -30,7 +32,6 @@ $name =  $data['name'];
 $photo =  $data['photo'];
 
 
-
 // =========資料庫比對==========
 
 // 1 先透過php找$_SESSION看裡面有沒有這個EMAIL存在(看登入狀態)
@@ -40,7 +41,7 @@ if (isset($_SESSION['member_account']) ) {
     // echo '該 EMAIL 存在於 $_SESSION 中。';
 
     $jsonArray = array(
-        'redirect' =>  $php_url.'index.html'
+        'redirect' =>  $fronted_url.'index.html'
     ); 
 
 } else {
@@ -58,7 +59,7 @@ if (isset($_SESSION['member_account']) ) {
 
         $_SESSION["member_account"]= $email;
         $jsonArray = array(
-            'redirect' =>  $php_url.'index.html'
+            'redirect' =>  $fronted_url.'index.html'
         );    
     }else{
         //首次註冊，導回首頁
@@ -83,7 +84,7 @@ if (isset($_SESSION['member_account']) ) {
         $_SESSION["member_account"]= $email;
 
         $jsonArray = array(
-            'redirect' =>  $php_url.'index.html'
+            'redirect' =>  $fronted_url.'index.html'
         );   
     }
 
