@@ -10,7 +10,7 @@ JOIN `GAME_DATA` AS G ON GC.GAME_ID = G.GAME_ID
 join (select distinct CATEGORY_DESCRIPTION,CATEGORY_ID   from `AI_OPTION`
 ) as O on O.CATEGORY_ID =  C.CATEGORY_ID 
 WHERE C.CATEGORY_ID = ? 
-limit 3";
+ORDER BY RAND() LIMIT 3";
 
 // 執行查詢
 $statement = $pdo->prepare($sql);
