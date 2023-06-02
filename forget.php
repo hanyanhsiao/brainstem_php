@@ -32,7 +32,7 @@ if ($result > 0) {
     $mail->CharSet = 'UTF-8';
     $mail->Encoding = 'base64';
     $mail->Username = 'chenyse3@gmail.com'; // 你的 Gmail 邮箱地址
-    $mail->Password = 'oedxyrgtuzcphkxr'; // 你的 Gmail 邮箱密码
+    $mail->Password = ''; // 你的 Gmail 邮箱密码
 
     // 设置发件人姓名
     $mail->setFrom('chenyse3@gmail.com', 'Brainstem'); // 替换为你的发件人姓名和邮箱地址
