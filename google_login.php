@@ -13,7 +13,7 @@ header("Access-Control-Allow-Credentials: true");
 // OPTIONS 請求方法是 CORS 的預檢請求，
 // 用於確定是否可以發送實際的 POST 請求。在某些情況下，
 // 瀏覽器會發送 OPTIONS 請求已檢查是否允許跨預訪問。
-// 對於 OPTIONS 請求，只發送 CORS 信息，不做其他處理
+// 對於 OPTIONS 請求，只發送 CORS，不做其他處理
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // =========接收資料==========
 
 // 確保 Content-Type 是 application/json
-header('Content-Type: application/json');
+// header('Content-Type: application/json');
 
 // 解析 JSON 資料
 $data = json_decode(file_get_contents('php://input'), true);
@@ -63,7 +63,6 @@ if (isset($_SESSION['member_account']) ) {
         );    
     }else{
         //首次註冊，導回首頁
-
         date_default_timezone_set("Asia/Taipei");
         $sql = "INSERT INTO MEMBER_DATA (MEMBERSHIP_NUMBER,NICKNAME,USERNAME,GENDER,MEMBER_ACCOUNT,MEMBER_PASSWORD,PHONE,MEMBER_PHOTO,BIRTHDAY,REGISTRATION_DATE,MEMBER_STATUS) 
         VALUES (? , ? , ? , ? , ? , ? ,? , ? , ? ,? , ? )";  
