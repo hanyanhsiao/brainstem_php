@@ -20,7 +20,6 @@ $jsonArray = array(
 );
 // ==================================
 
-
 if(isset($_SESSION["member_account"])){
     
     // print_r($_SESSION['member_account']);

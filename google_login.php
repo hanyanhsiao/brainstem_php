@@ -56,7 +56,6 @@ if (isset($_SESSION['member_account']) ) {
 
     if(count($data)>0){
         //已註冊過，導回首頁 
-
         $_SESSION["member_account"]= $email;
         $jsonArray = array(
             'redirect' =>  $fronted_url.'index.html'

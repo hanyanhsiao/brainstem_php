@@ -1,6 +1,7 @@
 <?php
 // 包含 Conn.php 文件
 include("Conn.php");
+session_start();
 
 
 // 設定CORS標頭，允許 'content-type' 標頭欄位。
@@ -27,6 +28,8 @@ include("Conn.php");
     $count = $statement->fetchColumn();
 
     if ($count > 0) {
+        //帳號存入session
+        $_SESSION["member_account"] = $username;
         echo "0";
     } else {
         echo "1";
