@@ -28,12 +28,12 @@ if ($result > 0) {
     $mail->Host = 'smtp.gmail.com';
     $mail->Port = 465;
     $mail->SMTPAuth = true;
-    $mail->SMTPSecure = 'ssl';
     $mail->SMTPAutoTLS = false;
     $mail->CharSet = 'UTF-8';
     $mail->Encoding = 'base64';
     $mail->Username = 'brainstem.thd101@gmail.com'; // 你的 Gmail 邮箱地址
     $mail->Password = 'gqwjsvzsikiinomr'; // 你的 Gmail 邮箱密码
+    $mail->SMTPSecure = 'ssl';
 
     // 设置发件人姓名
     $mail->setFrom('brainstem.thd101@gmail.com', 'Brainstem'); // 替换为你的发件人姓名和邮箱地址
