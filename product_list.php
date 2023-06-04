@@ -7,42 +7,44 @@ include("Conn.php");
 
 // 撰寫 SQL 查詢
 $sql = 
-"WITH a AS (
-	SELECT gd.*, 
-    dc.activity_id, dc.discount_percentage,
-	dc.discount_begin, dc.discount_end,
-     cate.category_name, GR.RATING_NAME
-	FROM `GAME_DATA` gd  
-	LEFT JOIN discount dc ON gd.GAME_ID = dc.GAME_ID
-	LEFT JOIN G_C_RELATION gc ON gd.game_id = gc.game_id
-	LEFT JOIN category cate ON gc.category_id = cate.category_id
+"WITH GAME AS (
+	SELECT GD.*, 
+    AC.ACTIVITY_ID, AC.DISCOUNT_PERCENTAGE,
+    AC.ACTIVITY_BEGIN, AC.ACTIVITY_END,
+    CATE.CATEGORY_NAME,GR.RATING_NAME
+	FROM GAME_DATA GD  
+    LEFT JOIN G_A_RELATION GA ON GD.GAME_ID = GA.GAME_ID
+    LEFT JOIN ACTIVITY AC ON GA.ACTIVITY_ID = AC.ACTIVITY_ID	
+	LEFT JOIN G_C_RELATION GC ON GD.GAME_ID = GC.GAME_ID
+	LEFT JOIN CATEGORY CATE ON GC.CATEGORY_ID = CATE.CATEGORY_ID
     LEFT JOIN GAME_RATING GR ON GD.RATING_ID = GR.RATING_ID
 ) 
-SELECT DISTINCT a.game_id,
-a.game_name,
-a.game_cover,
-a.game_intro,
-a.original_price,
-a.game_status,
-a.release_date,
-a.publisher,
-a.developer,
-a.rating_name,
-a.system_requirement,
-a.total_comments,
-a.purchased,
-ANY_VALUE(a.activity_id) as ACTIVITY_ID,
-ANY_VALUE(a.discount_percentage) as DISCOUNT_PERCENTAGE,
-ANY_VALUE(a.discount_begin) as DISCOUNT_BEGIN,
-ANY_VALUE(a.discount_end) as DISCOUNT_END,
+SELECT DISTINCT 
+GAME.GAME_ID,
+GAME.GAME_NAME,
+GAME.GAME_COVER,
+GAME.GAME_INTRO,
+GAME.ORIGINAL_PRICE,
+GAME.GAME_STATUS,
+GAME.RELEASE_DATE,
+GAME.PUBLISHER,
+GAME.DEVELOPER,
+GAME.RATING_NAME,
+GAME.SYSTEM_REQUIREMENT,
+GAME.TOTAL_COMMENTS,
+GAME.PURCHASED,
+ANY_VALUE(GAME.ACTIVITY_ID) as ACTIVITY_ID,
+ANY_VALUE(GAME.DISCOUNT_PERCENTAGE) as DISCOUNT_PERCENTAGE,
+ANY_VALUE(GAME.ACTIVITY_BEGIN) as ACTIVITY_BEGIN,
+ANY_VALUE(GAME.ACTIVITY_END) as ACTIVITY_END,
 
- GROUP_CONCAT(a.category_name SEPARATOR ',') AS game_cate
-		from a 
-        LEFT JOIN discount dc ON a.GAME_ID = dc.GAME_ID";
+ GROUP_CONCAT(GAME.CATEGORY_NAME SEPARATOR ',') AS GAME_CATE
+		from GAME 
+        LEFT JOIN G_A_RELATION GA ON GAME.GAME_ID = GA.GAME_ID";
 
-$sql_where = " where a.game_id = ?";    
-$sql_group_by = " GROUP BY a.game_id;";
-$sql_random = " GROUP BY a.game_id order by rand() limit 6;";
+$sql_where = " WHERE GAME.GAME_ID = ?";    
+$sql_group_by = " GROUP BY GAME.GAME_ID;";
+$sql_random = " GROUP BY GAME.GAME_ID ORDER BY RAND() limit 6;";
     
 
 //判斷前面傳來的id是否為空，是的話就是列表頁，不拚where條件的部分，不是就拚where條件
