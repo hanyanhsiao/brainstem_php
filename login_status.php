@@ -24,7 +24,7 @@ if(isset($_SESSION["member_account"])){
     
     // print_r($_SESSION['member_account']);
     // 判斷是否是google登入
-    $sql = "SELECT NICKNAME,MEMBER_PHOTO FROM MEMBER_DATA WHERE MEMBER_ACCOUNT = ?";
+    $sql = "SELECT NICKNAME,MEMBER_PHOTO,MEMBER_ID FROM MEMBER_DATA WHERE MEMBER_ACCOUNT = ?";
     $statement = $pdo->prepare($sql);
     $statement->bindValue(1,$_SESSION['member_account']);
     $statement->execute();
@@ -32,6 +32,8 @@ if(isset($_SESSION["member_account"])){
     // echo $data->NICKNAME.$data->MEMBER_PHOTO;
 
     $jsonArray = array(
+        "account" => $_SESSION["member_account"],
+        "member_ID" => $data->MEMBER_ID,
         "nickname" => $data->NICKNAME,
         "photo" => $data->MEMBER_PHOTO,
         "isLogin"=>true
