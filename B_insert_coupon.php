@@ -10,17 +10,23 @@ header("Access-Control-Allow-Credentials: true");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 接收表單資料
-    $couponCode = $_POST['couponcode'];
-    $couponName = $_POST['couponname'];
-    $couponDetail = $_POST['coupondetail'];
-    $couponBegin = $_POST['couponbegin'];
-    $couponEnd = $_POST['couponend'];
-    $couponDiscount = $_POST['price'];
-    $minimumLimit = $_POST['minprice'];
-    $couponStatus = $_POST['couponstatus']; // Assuming you have a form field named 'couponstatus'
+    $couponCode = $_POST['couponCode'];
+    $couponName = $_POST['couponName'];
+    $couponDetail = $_POST['couponDetail'];
+    $couponBegin = $_POST['couponBegin'];
+    $couponEnd = $_POST['couponEnd'];
+    $couponDiscount = $_POST['couponDiscount'];
+    $minimumLimit = $_POST['minimumLimit'];
+    $couponStatus = $_POST['couponStatus']; 
 
+    if (empty($couponStatus)) {
+        $couponStatus = 1;
+    }
+    // if (empty($couponEnd)) {
+    //     $couponEnd = date('Y-m-d 23:59:59');
+    // }
     // 撰寫 SQL 插入語句
-    $sql = "INSERT INTO COUPON (COUPON_CODE, COUPON_NAME, COUPON_DETAIL, COUPON_BEGIN, COUPON_END, COUPON_DISCOUNT, MINIMUM_LIMIT, COUPON_STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO COUPON (COUPON_CODE, COUPON_NAME, COUPON_DETAIL, COUPON_BEGIN, COUPON_END, COUPON_DISCOUNT, MINIMUM_LIMIT , COUPON_STATUS) VALUES (?, ?, ?, ?, ?, ?, ? , ?)";
 
     // 執行插入語句
     $statement = $pdo->prepare($sql);
