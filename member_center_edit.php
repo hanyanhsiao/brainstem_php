@@ -17,7 +17,8 @@ $email = $_POST['email'];
 // 检查是否有上传图片
 if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
   // 处理图像文件的上传
-  $imageDir = "./pic/img/member_photo/"; // 图像文件存储目录
+  $imageDir = 'C:/Users/Tibame_T14/Documents/ilovernumber2teams/pic/img/member_photo/'; // 图像文件存储目录
+  $aaa = dirname(__DIR__);
   $image = $_FILES['image']; // 获取图像文件
 
   $tmpName = $image['tmp_name']; // 临时文件路径
@@ -48,6 +49,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     }
   } else {
     echo '文件上传失败';
+    echo $aaa;
   }
 } else {
   // 没有上传图片的情况下，直接将其他数据保存到数据库
@@ -67,4 +69,4 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     echo '发生错误：' . $statement->errorInfo()[2];
   }
 }
-
+?>
