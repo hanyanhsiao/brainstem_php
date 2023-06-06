@@ -44,7 +44,7 @@ date_default_timezone_set("Asia/Taipei");
 
   $affectedRow = $statement->execute();
 
-  if ($affectedRow > 0) {$affectedRows = $statement->execute();
+  if ($affectedRow > 0) {
     echo '註冊成功';
   } else {
     echo '發生錯誤：' . $statement->errorInfo()[2];
