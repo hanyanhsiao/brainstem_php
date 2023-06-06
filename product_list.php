@@ -45,13 +45,19 @@ ANY_VALUE(GAME.ACTIVITY_END) as ACTIVITY_END,
 $sql_where = " WHERE GAME.GAME_ID = ?";    
 $sql_group_by = " GROUP BY GAME.GAME_ID;";
 $sql_random = " GROUP BY GAME.GAME_ID ORDER BY RAND() limit 6;";
-    
+$sql_activity = " WHERE GAME.ACTIVITY_ID =? GROUP BY GAME.GAME_ID;";
 
 //判斷前面傳來的id是否為空，是的話就是列表頁，不拚where條件的部分，不是就拚where條件
 if(isset($_GET['action'])){
     if($_GET["action"] == "recommend"){
         $sql = $sql.$sql_random;
         $statement = $pdo->prepare($sql);
+        
+    }else if($_GET["action"] == "activity"){
+        $sql = $sql.$sql_activity;
+        $statement = $pdo->prepare($sql);
+        $statement->bindValue(1,$_GET["id"]);
+    
     }else{
         $sql =  $sql.$sql_where.$sql_group_by;
         $statement = $pdo->prepare($sql);
