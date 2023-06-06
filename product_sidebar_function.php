@@ -1,19 +1,15 @@
 <?php
 include("Conn.php");
 
-$filterList_json = $_GET['filterlist'];
-$filterList_json = json_decode($filterList_json, true);
-$cateFilterList = implode(",",$filterList_json['cateFilterList']);
-$saleFilterList = implode(",",$filterList_json['saleFilterList']);
-$maxPrice = $filterList_json['maxPrice'];
-$minPrice = $filterList_json['minPrice'];
+//最低金額跟最高金額設定預設值
+$minPrice = 0;
+$maxPrice = PHP_INT_MAX;
 
-echo $_GET['filterList'];
-// 撰寫 SQL 查詢
+//撰寫 SQL 查詢
 $sql = 
 "WITH GAME AS (
 SELECT GD.*, 
-    AC.ACTIVITY_ID, AC.DISCOUNT_PERCENTAGE,
+    AC.ACTIVITY_ID, AC.ACTIVITY_NAME, AC.DISCOUNT_PERCENTAGE,
     AC.ACTIVITY_BEGIN, AC.ACTIVITY_END,CATE.CATEGORY_ID,
     CATE.CATEGORY_NAME,GR.RATING_NAME
 FROM GAME_DATA GD  
@@ -37,45 +33,60 @@ SELECT
     GAME.SYSTEM_REQUIREMENT,
     GAME.TOTAL_COMMENTS,
     GAME.PURCHASED,
+    ANY_VALUE(GAME.ACTIVITY_NAME) as ACTIVITY_NAME,
     ANY_VALUE(GAME.ACTIVITY_ID) as ACTIVITY_ID,
     ANY_VALUE(GAME.DISCOUNT_PERCENTAGE) as DISCOUNT_PERCENTAGE,
     ANY_VALUE(GAME.ACTIVITY_BEGIN) as ACTIVITY_BEGIN,
     ANY_VALUE(GAME.ACTIVITY_END) as ACTIVITY_END,
+    ANY_VALUE(GROUP_CONCAT(GAME.CATEGORY_NAME SEPARATOR ',')) as GAME_CATE,
     ANY_VALUE(GROUP_CONCAT(GAME.CATEGORY_ID SEPARATOR ',')) as GAME_CATE_ID
 
 from GAME 
 LEFT JOIN G_A_RELATION GA ON GAME.GAME_ID = GA.GAME_ID
-where GAME.ACTIVITY_ID in(?) and GAME.CATEGORY_ID in(?) and GAME.ORIGINAL_PRICE between ? and ?
-GROUP BY GAME.GAME_ID;";
+where 1=1";
+
+if(isset($_GET["filterlist"]["saleFilterList"])){
+    $saleFilterList = $_GET["filterlist"]["saleFilterList"];
+    $sql_saleFilterList ="";
+    foreach($saleFilterList as $sale){
+        $sql_saleFilterList = "{$sql_saleFilterList}'{$sale}',";
+    };
+    $sql_saleFilterList = substr($sql_saleFilterList,0,-1);
+    // $saleFilterList = implode(',',$saleFilterList);
+    $sql = $sql." and GAME.ACTIVITY_NAME in(".$sql_saleFilterList.")";
+};
+
+if(isset($_GET["filterlist"]["cateFilterList"])){
+    $cateFilterList = $_GET["filterlist"]["cateFilterList"];
+    $sql_cateFilterList ="";
+    foreach($cateFilterList as $cate){
+        $sql_cateFilterList = "{$sql_cateFilterList}'{$cate}',";
+    };
+    $sql_cateFilterList = substr($sql_cateFilterList,0,-1);
+    // $cateFilterList = implode(',',$cateFilterList);
+    $sql = $sql." and GAME.CATEGORY_NAME in(".$sql_cateFilterList.")";
+};
+
+if(!empty($_GET["filterlist"]["minPrice"])){
+    $minPrice = $_GET["filterlist"]["minPrice"];  
+};
+if(!empty($_GET["filterlist"]["maxPrice"])){
+    $maxPrice = $_GET["filterlist"]["maxPrice"];  
+};
+
+$sql = $sql." and GAME.ORIGINAL_PRICE between {$minPrice} and {$maxPrice}";
+
+
+$sql .= " GROUP BY GAME.GAME_ID;";
 
 // 執行查詢
 $statement = $pdo->prepare($sql);
-$statement->bindValue(1, $saleFilterList);
-$statement->bindValue(2, $cateFilterList);
-$statement->bindValue(3, $minPrice);
-$statement->bindValue(4, $maxPrice);
 $statement->execute();
 
 
 
 //抓出全部且依照順序封裝成一個二維陣列
-$testResult  = $statement->fetchAll();
+$result  = $statement->fetchAll();
 
-// 建立最終的 JSON 格式陣列
-$jsonArray = array();
-
-// -----------在這下面做資料處理回傳你想要的格式-----------------
-
-// if (count($testResult) > 0) {
-//     foreach($testResult as $index => $testRow){
-
-//     }
-// }
-// -----------在這上面做資料處理回傳你想要的格式-----------------
-
-// 關閉資料庫連線
-// unset($pdo); 
-
-// 轉換成 JSON 格式輸出 
-echo json_encode($jsonArray);
+echo json_encode($result);
 ?>
