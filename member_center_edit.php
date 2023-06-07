@@ -17,8 +17,8 @@ $email = $_POST['email'];
 // 检查是否有上传图片
 if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
   // 处理图像文件的上传
-  $imageDir = 'C:/Users/Tibame_T14/Documents/ilovernumber2teams/pic/img/member_photo/'; // 图像文件存储目录
-  $aaa = dirname(__DIR__);
+   $imageDir = $_SERVER["DOCUMENT_ROOT"].'/brainstem/pic/img/member_photo/'; // 图像文件存储目录
+  // $imageDir = '/Applications/XAMPP/xamppfiles/htdocs/brainstem/pic/img/member_photo/';
   $image = $_FILES['image']; // 获取图像文件
 
   $tmpName = $image['tmp_name']; // 临时文件路径
@@ -44,6 +44,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
 
     if ($affectedRow > 0) {
       echo '更新成功';
+      echo $imageDir;
     } else {
       echo '发生错误：' . $statement->errorInfo()[2];
     }
@@ -65,6 +66,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
 
   if ($affectedRow > 0) {
     echo '更新成功';
+    echo $imageDir;
   } else {
     echo '发生错误：' . $statement->errorInfo()[2];
   }
