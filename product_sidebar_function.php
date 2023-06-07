@@ -14,7 +14,7 @@ SELECT GD.*,
     CATE.CATEGORY_NAME,GR.RATING_NAME
 FROM GAME_DATA GD  
 LEFT JOIN G_A_RELATION GA ON GD.GAME_ID = GA.GAME_ID
-LEFT JOIN ACTIVITY AC ON GA.ACTIVITY_ID = AC.ACTIVITY_ID	
+LEFT JOIN ACTIVITY AC ON GA.ACTIVITY_ID = AC.ACTIVITY_ID  
 LEFT JOIN G_C_RELATION GC ON GD.GAME_ID = GC.GAME_ID
 LEFT JOIN CATEGORY CATE ON GC.CATEGORY_ID = CATE.CATEGORY_ID
 LEFT JOIN GAME_RATING GR ON GD.RATING_ID = GR.RATING_ID
@@ -44,6 +44,14 @@ SELECT
 from GAME 
 LEFT JOIN G_A_RELATION GA ON GAME.GAME_ID = GA.GAME_ID
 where 1=1";
+
+if(isset($_GET["cateId"])){
+    $sql = $sql." and GAME.CATEGORY_ID in(".$_GET["cateId"].")";
+}
+
+if(isset($_GET["id"])){
+    $sql = $sql." and GAME.ACTIVITY_ID in(".$_GET["id"].")";
+}
 
 if(isset($_GET["filterlist"]["saleFilterList"])){
     $saleFilterList = $_GET["filterlist"]["saleFilterList"];
@@ -75,7 +83,6 @@ if(!empty($_GET["filterlist"]["maxPrice"])){
 };
 
 $sql = $sql." and GAME.ORIGINAL_PRICE between {$minPrice} and {$maxPrice}";
-
 
 $sql .= " GROUP BY GAME.GAME_ID;";
 
