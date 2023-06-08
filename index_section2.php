@@ -12,7 +12,7 @@ ACTIVITY_BEGIN,
 ACTIVITY_END, 
 DISCOUNT_PERCENTAGE,
 ACTIVITY_IMG
-FROM brainstem.ACTIVITY;";
+FROM ACTIVITY;";
 
 // 執行查詢
 $statement = $pdo->prepare($sql);
