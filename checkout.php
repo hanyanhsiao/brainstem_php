@@ -14,19 +14,24 @@ $memberID = $_POST['member_ID'];
 $price = intval($_POST['price']);
 $selectCouponID = intval($_POST['select_coupon_id']);
 $total = intval($_POST['total']);
+$discount_price = intval($_POST['discount_price']);
 $cartItems = json_decode($_POST['cartItems'], true);
+
 
 // 執行 ORDER_DATA 欄位的寫入操作
 $orderCode = date('YmdHis'); // 生成訂單代碼，格式為日期和時間
 $orderDate = date('Y-m-d'); // 獲取當天日期
 
+// 計算 DETAIL_SUM 的值
+// $discount_price = $price - $total;
+
 // 構建 ORDER_DATA SQL 插入語句
 if ($selectCouponID != 0) {
     // 有選擇優惠券
-    $sqlOrderData = "INSERT INTO ORDER_DATA (ORDER_CODE, MEMBER_ID, DETAIL_SUM, COUPON_ID, ORDER_DATE, SUM_PRICE) VALUES ('$orderCode', '$memberID', $price, $selectCouponID, '$orderDate', $total)";
+    $sqlOrderData = "INSERT INTO ORDER_DATA (ORDER_CODE, MEMBER_ID, DETAIL_SUM, COUPON_ID, ORDER_DATE, SUM_PRICE) VALUES ('$orderCode', '$memberID', $discount_price, $selectCouponID, '$orderDate', $total)";
 } else {
     // 未選擇優惠券
-    $sqlOrderData = "INSERT INTO ORDER_DATA (ORDER_CODE, MEMBER_ID, DETAIL_SUM, ORDER_DATE, SUM_PRICE) VALUES ('$orderCode', '$memberID', $price, '$orderDate', $total)";
+    $sqlOrderData = "INSERT INTO ORDER_DATA (ORDER_CODE, MEMBER_ID, DETAIL_SUM, ORDER_DATE, SUM_PRICE) VALUES ('$orderCode', '$memberID', $discount_price, '$orderDate', $total)";
 }
 
 // 執行 ORDER_DATA SQL 插入操作
