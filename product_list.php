@@ -46,8 +46,8 @@ LEFT JOIN G_A_RELATION GA ON GAME.GAME_ID = GA.GAME_ID";
 $sql_where = " WHERE GAME.GAME_ID = ?";    
 $sql_group_by = " GROUP BY GAME.GAME_ID;";
 $sql_random = " GROUP BY GAME.GAME_ID ORDER BY RAND() limit 6;";
-$sql_activity = " WHERE GAME.ACTIVITY_ID =? GROUP BY GAME.GAME_ID;";
-$sql_cate = " WHERE GAME.ACTIVITY_ID =? GROUP BY GAME.GAME_ID;";
+// $sql_activity = " WHERE GAME.ACTIVITY_ID =? GROUP BY GAME.GAME_ID;";
+// $sql_cate = " WHERE GAME.ACTIVITY_ID =? GROUP BY GAME.GAME_ID;";
 
 //判斷前面傳來的id是否為空，是的話就是列表頁，不拚where條件的部分，不是就拚where條件
 if(isset($_GET['action'])){
@@ -55,10 +55,10 @@ if(isset($_GET['action'])){
         $sql = $sql.$sql_random;
         $statement = $pdo->prepare($sql);
         
-    }else if($_GET["action"] == "activity"){
-        $sql = $sql.$sql_activity;
-        $statement = $pdo->prepare($sql);
-        $statement->bindValue(1,$_GET["id"]);
+    // }else if($_GET["action"] == "activity"){
+    //     $sql = $sql.$sql_activity;
+    //     $statement = $pdo->prepare($sql);
+    //     $statement->bindValue(1,$_GET["id"]);
     
     }else{
         $sql =  $sql.$sql_where.$sql_group_by;
@@ -71,18 +71,6 @@ if(isset($_GET['action'])){
 }
 
 
-// if($_GET["action"] == "recommend"){
-//     $sql = $sql.$sql_random;
-//     $statement = $pdo->prepare($sql);
-// }else if(empty($_GET["id"])){
-//    $sql = $sql.$sql_group_by;
-//    $statement = $pdo->prepare($sql);
-// }else{
-//    $sql =  $sql.$sql_where.$sql_group_by;
-//    $statement = $pdo->prepare($sql);
-//    $statement->bindValue(1,$_GET["id"]);
-// };
-
 
 // 執行查詢
 
@@ -92,18 +80,5 @@ $statement->execute();
 $product_list  = $statement->fetchAll();
 echo json_encode($product_list);
 
-// // -----------在這下面做資料處理回傳你想要的格式-----------------
 
-// if (count($testResult) > 0) {
-//     foreach($testResult as $index => $testRow){
-
-//     }
-// }
-// // -----------在這上面做資料處理回傳你想要的格式-----------------
-
-// 關閉資料庫連線
-// unset($pdo); 
-
-// // 轉換成 JSON 格式輸出 
-// echo json_encode($jsonArray);
 ?>
