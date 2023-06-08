@@ -1,6 +1,11 @@
 <?php
 include("Conn.php");
 
+// =========請求==========
+// 設定CORS標頭，允許 'content-type' 標頭欄位。
+
+header("Access-Control-Allow-Credentials: true");
+
 //最低金額跟最高金額設定預設值
 $minPrice = 0;
 $maxPrice = PHP_INT_MAX;
