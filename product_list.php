@@ -1,10 +1,10 @@
 <?php
 
-// 此檔為範例，請依據個人需求做更改
-
-//資料庫連線(這行一定要寫!!!!!!!!!)
 include("Conn.php");
+// =========請求==========
+// 設定CORS標頭，允許 'content-type' 標頭欄位。
 
+header("Access-Control-Allow-Credentials: true");
 // 撰寫 SQL 查詢
 $sql = 
 "WITH GAME AS (
