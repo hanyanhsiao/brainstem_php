@@ -21,35 +21,44 @@ $result = mysqli_query($connection, $query);
 $orders = array();
 
 while ($row = mysqli_fetch_assoc($result)) {
-    // 創建一個新的陣列來存儲調整後的資料格式
-    if ($row['DISCOUNT_PERCENTAGE'] === null || $row['DISCOUNT_PERCENTAGE'] === 0) {
-        $originalPrice = 0;
-    } else {
-        $originalPrice = $row['AFTER_DISCOUNT_PRICE'] / $row['DISCOUNT_PERCENTAGE'];
+    $orderId = $row['ORDER_CODE'];
+
+    // 檢查是否已存在該訂單編號的訂單
+    $existingOrder = array_filter($orders, function ($order) use ($orderId) {
+        return $order['orderId'] === $orderId;
+    });
+
+    if (empty($existingOrder)) {
+        // 該訂單編號的訂單尚未存在，創建一個新的訂單
+        $order = array(
+            'orderId' => $orderId,
+            'purchaseDate' => $row['ORDER_DATE'],
+            'purchaseAmount' => $row['SUM_PRICE'],
+            'orderStatus' => '已完成',
+            'showDetails' => false,
+            'items' => array(),
+            'coupon' => $row['COUPON_NAME'],
+            'discount' => $row['DETAIL_SUM'],
+            'totalAmount' => $row['SUM_PRICE']
+        );
+
+        $orders[] = $order;
     }
-    $order = array(
-        'orderId' => $row['ORDER_CODE'],
-        'purchaseDate' => $row['ORDER_DATE'],
-        'purchaseAmount' => $row['SUM_PRICE'],
-        'orderStatus' => '已完成',
-        'showDetails' => false,
-        'items' => array(
-            array(
-                'itemId' => '',
-                'name' => $row['GAME_NAME'],
-                'image' => $row['GAME_COVER'],
-                'discount' => $row['DISCOUNT_PERCENTAGE'],
-                'price' => $row['AFTER_DISCOUNT_PRICE'],
-                'originalPrice' => $row['AFTER_DISCOUNT_PRICE']
-            )
-        ),
-        'coupon' => $row['COUPON_NAME'],
-        'discount' => $row['DETAIL_SUM'],
-        'totalAmount' => $row['SUM_PRICE']
+
+    // 將訂單明細添加到對應的訂單中
+    $item = array(
+        'itemId' => '',
+        'name' => $row['GAME_NAME'],
+        'image' => $row['GAME_COVER'],
+        'discount' => $row['DISCOUNT_PERCENTAGE'],
+        'price' => $row['AFTER_DISCOUNT_PRICE'],
+        'originalPrice' => $row['AFTER_DISCOUNT_PRICE']
     );
 
-    $orders[] = $order;
+    $index = array_search($orderId, array_column($orders, 'orderId'));
+    $orders[$index]['items'][] = $item;
 }
 
 echo json_encode($orders);
+
 ?>
