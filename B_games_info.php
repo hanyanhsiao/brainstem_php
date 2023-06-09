@@ -28,7 +28,7 @@ GROUP BY gd.GAME_ID, gd.GAME_NAME, gd.GAME_COVER, gd.GAME_INTRO, gd.ORIGINAL_PRI
     $rating = $gameratingstatement->fetchAll(PDO::FETCH_ASSOC);
 
     //選擇遊戲類型
-    $gamecategorysql = "SELECT CATEGORY_NAME FROM CATEGORY";
+    $gamecategorysql = "SELECT CATEGORY_ID,CATEGORY_NAME FROM CATEGORY";
     $gamecategorystatement = $pdo->prepare($gamecategorysql);
     $gamecategorystatement->execute();
 
