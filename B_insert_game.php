@@ -16,7 +16,7 @@ header("Access-Control-Allow-Credentials: true");
     $rating = $gameratingstatement->fetchAll(PDO::FETCH_ASSOC);
 
     //選擇遊戲類型
-    $gamecategorysql = "SELECT CATEGORY_NAME FROM CATEGORY";
+    $gamecategorysql = "SELECT CATEGORY_ID,CATEGORY_NAME FROM CATEGORY";
     $gamecategorystatement = $pdo->prepare($gamecategorysql);
     $gamecategorystatement->execute();
 
@@ -43,12 +43,16 @@ $ratingID = $_POST['ratingID'];
 $systemRequirement = $_POST['systemRequirement'];
 $totalComments = $_POST['totalComments'];
 $purchased = $_POST['purchased'];
-
+$categoryid = $_POST['categoryid'];
+// echo "111";
+// print_r($_FILES);
+// print_r($_POST);
 // 檢查是否有上傳圖片
 if (isset($_FILES['gameCover'])) {
     // var_dump($_FILES['gameCover'][0]);
     // 取得上傳的檔案資訊
-    $file = $_FILES['gameCover'][0];
+    // echo "aaa";
+    $file = $_FILES['gameCover'];
     $fileName = $file['name'];
     $fileTmpName = $file['tmp_name'];
     
@@ -57,9 +61,15 @@ if (isset($_FILES['gameCover'])) {
         // 將圖片搬移到適當的目錄，並取得新的路徑
         // $targetDir = './pic/img/cover/'; // 替換成您希望存儲圖片的目錄
         // var_dump($_FILES['gameCover']);
-        $targetDir = 'C:\Users\Tibame_T14\Downloads'; // 替換成您希望存儲圖片的目錄
+        
+        $targetDir = 'C:\Users\Tibame_T14\Downloads/'; // 替換成您希望存儲圖片的目錄
+        // $targetDir = $add_photo; // 替換成您希望存儲圖片的目錄
         $newFilePath = $targetDir . $fileName;
-        move_uploaded_file($fileTmpName, $newFilePath);
+        
+
+        if(move_uploaded_file($fileTmpName, $newFilePath)){
+            // echo $fileName;
+        }
         
         // 設置圖片路徑
         $gameCover = $newFilePath;
