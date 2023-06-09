@@ -21,16 +21,8 @@ $categoryResult  = $statement_category->fetchAll();
 $jsonArray = array(
     "activity" => $activityResult,
     "category" => $categoryResult
-    );
+);
 
-// -----------在這下面做資料處理回傳你想要的格式-----------------
-
-// if (count($testResult) > 0) {
-//     foreach($testResult as $index => $testRow){
-
-//     }
-// }
-// -----------在這上面做資料處理回傳你想要的格式-----------------
 
 // 關閉資料庫連線
 // unset($pdo); 
