@@ -21,7 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $discountedPrice = $_POST['discountedPrice'];
     $gameIntro = $_POST['gameIntro'];
     $systemRequirement = $_POST['systemRequirement'];
-
+echo  $selectedCategories;
+//
+$selecttype = explode(",", $selectedCategories);
+// print_r($selecttype);
+//
     // 開始事務
     $pdo->beginTransaction();
 
