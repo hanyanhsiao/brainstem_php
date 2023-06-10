@@ -37,7 +37,7 @@ date_default_timezone_set("Asia/Taipei");
   $statement->bindValue(5, $email);
   $statement->bindValue(6, $password);
   $statement->bindValue(7, $phone);
-  $statement->bindValue(8, '');
+  $statement->bindValue(8, 'pic/img/member_photo/default.png');
   $statement->bindValue(9, $formattedDate);
   $statement->bindValue(10, date("Y-m-d"));
   $statement->bindValue(11, 0 );
