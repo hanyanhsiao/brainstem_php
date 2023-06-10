@@ -27,9 +27,12 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
   // 生成唯一的文件名
   $fileName = uniqid() . '.' . $extension;
 
+  $src = 'pic/img/member_photo/';
+
   // 移动文件到目标目录
-  $targetPath = $imageDir . $fileName;
-  if (move_uploaded_file($tmpName, $targetPath)) {
+  $targetPath = $src . $fileName;
+  $targetPaths = $imageDir . $fileName;
+  if (move_uploaded_file($tmpName, $targetPaths)) {
     // 文件移动成功，将文件路径保存到数据库
     $sql = "UPDATE MEMBER_DATA SET USERNAME = ?, NICKNAME = ?, PHONE = ?, GENDER = ?, MEMBER_PHOTO = ? WHERE MEMBER_ACCOUNT = ?";
     $statement = $pdo->prepare($sql);
