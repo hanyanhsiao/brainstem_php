@@ -23,11 +23,15 @@
     
     // 設定CORS標頭
     header("Access-Control-Allow-Origin: http://localhost:3000");
-    // header("Access-Control-Allow-Origin: https://tibamef2e.com");
 
-    //共用伺服器參數
-    $fronted_url = "http://localhost:3000/";
-    // $fronted_url = "https://tibamef2e.com/thd101/g2/dist/";
+    // 圖片被儲存的路徑
+
+    // localhost & Tibame 的相對路徑
+    $photo_fileSystem_path = './img/member_photo/';
+
+    // 前端圖片渲染路徑
+    $get_photo_path = "http://localhost/brainstem_php/img/member_photo/";
+    // $get_photo_path = 'https://tibamef2e.com/thd101/g2/php/img/member_photo/';
 
     // ==========勿動勿動勿動勿動勿動勿動勿動勿動===========
  ?>

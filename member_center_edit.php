@@ -17,7 +17,14 @@ $email = $_POST['email'];
 // 检查是否有上传图片
 if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
   // 处理图像文件的上传
-   $imageDir = $_SERVER["DOCUMENT_ROOT"].'/brainstem/pic/img/member_photo/'; // 图像文件存储目录
+  //  $imageDir = $_SERVER["DOCUMENT_ROOT"].'/brainstem_php/'; // 图像文件存储目录
+   $imageDir_php = $photo_fileSystem_path;  // 圖片被儲存的路徑
+   $imageDir_web = $get_photo_path; // 前端圖片渲染路徑
+   
+  //  如果沒有這資料夾就新建
+  if(!file_exists($imageDir_php)){
+    mkdir($imageDir_php,0777,true);
+  }
   // $imageDir = '/Applications/XAMPP/xamppfiles/htdocs/brainstem/pic/img/member_photo/';
   $image = $_FILES['image']; // 获取图像文件
 
@@ -31,8 +38,9 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
 
   // 移动文件到目标目录
   $targetPath = $src . $fileName;
-  $targetPaths = $imageDir . $fileName;
-  if (move_uploaded_file($tmpName, $targetPaths)) {
+  $targetPaths_php = $imageDir_php . $fileName;
+  $targetPaths_web = $imageDir_web . $fileName;
+  if (move_uploaded_file($tmpName, $targetPaths_php)) {
     // 文件移动成功，将文件路径保存到数据库
     $sql = "UPDATE MEMBER_DATA SET USERNAME = ?, NICKNAME = ?, PHONE = ?, GENDER = ?, MEMBER_PHOTO = ? WHERE MEMBER_ACCOUNT = ?";
     $statement = $pdo->prepare($sql);
@@ -40,14 +48,14 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     $statement->bindValue(2, $nickname);
     $statement->bindValue(3, $phone);
     $statement->bindValue(4, $gender);
-    $statement->bindValue(5, $targetPath);
+    $statement->bindValue(5, $targetPaths_web);
     $statement->bindValue(6, $email);
 
     $affectedRow = $statement->execute();
 
     if ($affectedRow > 0) {
       echo '更新成功';
-      echo $imageDir;
+      echo $targetPaths_web;
     } else {
       echo '发生错误：' . $statement->errorInfo()[2];
     }
