@@ -48,7 +48,7 @@ SELECT
 
 from GAME 
 LEFT JOIN G_A_RELATION GA ON GAME.GAME_ID = GA.GAME_ID
-where 1=1";
+where GAME.GAME_STATUS = 1 AND 1=1";
 
 if(isset($_GET["cateId"])){
     $sql = $sql." and GAME.CATEGORY_ID in(".$_GET["cateId"].")";
